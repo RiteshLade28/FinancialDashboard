@@ -88,6 +88,18 @@ export async function updateInvoice(
   redirect('/dashboard/invoices');
 }
 
+export async function toggleInvoiceStatus(id: string) {
+  const index = store.invoices.findIndex((i) => i.id === id);
+  if (index !== -1) {
+    store.invoices[index] = {
+      ...store.invoices[index],
+      status: store.invoices[index].status === 'paid' ? 'pending' : 'paid',
+    };
+  }
+
+  revalidatePath('/dashboard/invoices');
+}
+
 export async function deleteInvoice(id: string) {
   const index = store.invoices.findIndex((i) => i.id === id);
   if (index !== -1) {

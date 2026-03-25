@@ -3,6 +3,7 @@ import {
   FormattedCustomersTable,
   InvoiceForm,
   InvoicesTable,
+  InvoiceSummary,
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -126,6 +127,27 @@ export async function fetchCustomers(): Promise<CustomerField[]> {
   return store.customers
     .map((c) => ({ id: c.id, name: c.name }))
     .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function fetchInvoiceSummary(): Promise<InvoiceSummary[]> {
+  return store.customers
+    .map((customer) => {
+      const customerInvoices = store.invoices.filter(
+        (i) => i.customer_id === customer.id,
+      );
+      const paid = customerInvoices.filter((i) => i.status === 'paid');
+      const pending = customerInvoices.filter((i) => i.status === 'pending');
+      return {
+        id: customer.id,
+        name: customer.name,
+        image_url: customer.image_url,
+        totalPaid: paid.reduce((sum, i) => sum + i.amount, 0),
+        totalPending: pending.reduce((sum, i) => sum + i.amount, 0),
+        paidCount: paid.length,
+        pendingCount: pending.length,
+      };
+    })
+    .sort((a, b) => b.totalPaid + b.totalPending - (a.totalPaid + a.totalPending));
 }
 
 export async function fetchFilteredCustomers(

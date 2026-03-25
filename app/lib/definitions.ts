@@ -80,6 +80,16 @@ export type CustomerField = {
   name: string;
 };
 
+export type InvoiceSummary = {
+  id: string;
+  name: string;
+  image_url: string;
+  totalPaid: number;
+  totalPending: number;
+  paidCount: number;
+  pendingCount: number;
+};
+
 export type InvoiceForm = {
   id: string;
   customer_id: string;
