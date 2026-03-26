@@ -57,10 +57,12 @@ const ITEMS_PER_PAGE = 6;
 export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
+  status?: string,
 ): Promise<InvoicesTable[]> {
   const q = query.toLowerCase();
 
   const filtered = store.invoices
+    .filter((invoice) => !status || invoice.status === status)
     .map((invoice) => {
       const customer = store.customers.find(
         (c) => c.id === invoice.customer_id,
@@ -91,20 +93,27 @@ export async function fetchFilteredInvoices(
   return filtered.slice(offset, offset + ITEMS_PER_PAGE);
 }
 
-export async function fetchInvoicesPages(query: string): Promise<number> {
+export async function fetchInvoicesPages(
+  query: string,
+  status?: string,
+): Promise<number> {
   const q = query.toLowerCase();
 
-  const filtered = store.invoices.filter((invoice) => {
-    const customer = store.customers.find((c) => c.id === invoice.customer_id);
-    return (
-      !q ||
-      (customer?.name ?? '').toLowerCase().includes(q) ||
-      (customer?.email ?? '').toLowerCase().includes(q) ||
-      invoice.amount.toString().includes(q) ||
-      invoice.date.includes(q) ||
-      invoice.status.toLowerCase().includes(q)
-    );
-  });
+  const filtered = store.invoices
+    .filter((invoice) => !status || invoice.status === status)
+    .filter((invoice) => {
+      const customer = store.customers.find(
+        (c) => c.id === invoice.customer_id,
+      );
+      return (
+        !q ||
+        (customer?.name ?? '').toLowerCase().includes(q) ||
+        (customer?.email ?? '').toLowerCase().includes(q) ||
+        invoice.amount.toString().includes(q) ||
+        invoice.date.includes(q) ||
+        invoice.status.toLowerCase().includes(q)
+      );
+    });
 
   return Math.ceil(filtered.length / ITEMS_PER_PAGE);
 }
