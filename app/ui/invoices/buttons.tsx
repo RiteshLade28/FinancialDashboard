@@ -1,6 +1,24 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowDownTrayIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteInvoice } from '@/app/lib/actions';
+
+export function ExportInvoices() {
+  return (
+    <a
+      href="/api/invoices/export"
+      download
+      className="flex h-10 items-center rounded-lg border border-gray-300 px-4 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+    >
+      <span className="hidden md:block">Export CSV</span>{' '}
+      <ArrowDownTrayIcon className="h-5 md:ml-2" />
+    </a>
+  );
+}
 
 export function CreateInvoice() {
   return (
