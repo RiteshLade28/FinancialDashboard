@@ -58,6 +58,8 @@ export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
   status?: string,
+  sort?: string,
+  order?: string,
 ): Promise<InvoicesTable[]> {
   const q = query.toLowerCase();
 
@@ -87,7 +89,20 @@ export async function fetchFilteredInvoices(
         inv.date.includes(q) ||
         inv.status.toLowerCase().includes(q),
     )
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .sort((a, b) => {
+      const dir = order === 'desc' ? -1 : 1;
+      switch (sort) {
+        case 'name':
+          return dir * a.name.localeCompare(b.name);
+        case 'amount':
+          return dir * (a.amount - b.amount);
+        case 'status':
+          return dir * a.status.localeCompare(b.status);
+        case 'date':
+        default:
+          return dir * (new Date(a.date).getTime() - new Date(b.date).getTime());
+      }
+    });
 
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   return filtered.slice(offset, offset + ITEMS_PER_PAGE);

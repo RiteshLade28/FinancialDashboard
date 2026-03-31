@@ -11,12 +11,16 @@ export default async function Page(props: {
     query?: string;
     page?: string;
     status?: string;
+    sort?: string;
+    order?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const status = searchParams?.status || '';
+  const sort = searchParams?.sort || '';
+  const order = searchParams?.order || '';
   const totalPages = await fetchInvoicesPages(query, status);
 
   return (
@@ -34,7 +38,7 @@ export default async function Page(props: {
       <div className="mt-3">
         <StatusFilter />
       </div>
-      <Table query={query} currentPage={currentPage} status={status} />
+      <Table query={query} currentPage={currentPage} status={status} sort={sort} order={order} />
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

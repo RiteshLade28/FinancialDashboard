@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import ToggleStatus from '@/app/ui/invoices/toggle-status';
+import SortableHeader from '@/app/ui/invoices/sortable-header';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
 
@@ -8,12 +9,16 @@ export default async function InvoicesTable({
   query,
   currentPage,
   status,
+  sort,
+  order,
 }: {
   query: string;
   currentPage: number;
   status?: string;
+  sort?: string;
+  order?: string;
 }) {
-  const invoices = await fetchFilteredInvoices(query, currentPage, status);
+  const invoices = await fetchFilteredInvoices(query, currentPage, status, sort, order);
 
   return (
     <div className="mt-6 flow-root">
@@ -59,21 +64,13 @@ export default async function InvoicesTable({
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
-                </th>
+                <SortableHeader column="name" label="Customer" className="px-4 py-5 sm:pl-6" />
                 <th scope="col" className="px-3 py-5 font-medium">
                   Email
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Amount
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Date
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Status
-                </th>
+                <SortableHeader column="amount" label="Amount" className="px-3 py-5" />
+                <SortableHeader column="date" label="Date" className="px-3 py-5" />
+                <SortableHeader column="status" label="Status" className="px-3 py-5" />
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
