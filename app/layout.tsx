@@ -11,12 +11,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         {children}
-        <Script
-          src="http://localhost:3000/widget.js"
-          data-apppack-key="blx_L2i-2zsxXeLcwR_D6ZYZOethHr4"
-          data-apppack-url="http://localhost:3000"
-          strategy="afterInteractive"
-        />
+        <script
+          src="https://getblox.app/widget.js"
+          data-apppack-key="blx_ZUVBJcjyEmLWDhbWRYfto3yYUmM"
+          data-apppack-url="https://getblox.app"
+          async
+        ></script>
       </body>
     </html>
   );
