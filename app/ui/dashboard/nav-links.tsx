@@ -5,6 +5,7 @@ import {
   DocumentDuplicateIcon,
   ChartBarIcon,
   CommandLineIcon,
+  ChartPieIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -21,6 +22,7 @@ const links = [
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
   { name: 'Summary', href: '/dashboard/summary', icon: ChartBarIcon },
+  { name: 'Reports', href: '/dashboard/reports', icon: ChartPieIcon },
   { name: 'API', href: '/dashboard/api-explorer', icon: CommandLineIcon },
 ];
 
