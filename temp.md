@@ -1,67 +1,102 @@
-# Financial Dashboard Features
+# Financial Dashboard — Knowledge Base
 
-## Dashboard Features
+## Overview
 
-### Invoices Management
-- **Full CRUD operations** - Create, read, update, delete invoices
-- **Quick status toggle** - Click status badge to flip between pending/paid
-- **Advanced filtering** - Filter by status (All/Paid/Pending), search by customer/email/amount/date
-- **Sortable columns** - Click any column header to sort by customer, amount, date, or status
-- **Pagination** - 6 items per page with navigation
-- **CSV export** - Download all invoices as a CSV file with date-stamped filename
-- **Totals row** - See count and sum total of displayed invoices
+The Financial Dashboard is a Next.js application for managing invoices, tracking customer payments, and generating financial reports. It provides a full-featured UI with real-time filtering, sorting, and export capabilities, backed by a REST API.
 
-### Customers
-- View all customers with summary stats
-- Search customers by name or email
-- See total invoices, pending amounts, and paid amounts per customer
-- Click customer names in invoices table to filter
+## Dashboard Pages
 
-### Summary Page
-- Breakdown of invoices by customer
-- Shows paid vs. pending amounts per customer
-- Responsive mobile/desktop layouts
-- Sorted by largest customers first
+### Home (`/dashboard`)
+The main landing page displays four key metrics cards (Total Collected, Total Pending, Total Invoices, Total Customers), a 12-month revenue bar chart, and the 5 most recent invoices.
 
-### API Explorer
-- Interactive tool to test the invoices API
-- Real-time filtering with status and date range
-- Display results in table or JSON format
-- See matched invoices out of total count
+### Invoices (`/dashboard/invoices`)
+Full invoice management table with:
+- **CRUD operations** — Create, edit, and delete invoices
+- **Quick status toggle** — Click any status badge to flip between Pending and Paid instantly
+- **Status filter tabs** — Toggle between All, Paid, and Pending views
+- **Sortable columns** — Click Customer, Amount, Date, or Status headers to sort ascending/descending
+- **Search** — Debounced search across customer name, email, amount, date, and status
+- **CSV export** — Download all invoices as a timestamped CSV file
+- **Totals row** — Footer showing count and sum of displayed invoices
+- **Pagination** — 6 invoices per page with navigation controls
+- **Clickable customer names** — Navigate directly to filtered customer view
 
-## API Endpoints
+### Customers (`/dashboard/customers`)
+View all customers with their invoice summaries. Search by name or email. Each row shows total invoices, total pending, and total paid amounts.
+
+### Summary (`/dashboard/summary`)
+Per-customer invoice breakdown showing paid and pending amounts with counts. Displays top-level cards for collected, pending, and total invoice counts. Sorted by largest customers first. Responsive mobile card and desktop table layouts.
+
+### Outstanding (`/dashboard/outstanding`)
+Dedicated view for pending invoices requiring attention:
+- **Summary card** — Total outstanding amount, count, and average days pending
+- **Color-coded urgency** — Red (>30 days), orange (>14 days), yellow (<14 days)
+- **Sorted by age** — Oldest pending invoices appear first
+- **Customer links** — Click to navigate to customer details
+- **Success state** — Displays confirmation when all invoices are paid
+
+### Reports (`/dashboard/reports`)
+Financial analytics and statistics:
+- **Key metrics** — Average invoice amount, pending count, paid count, total customers
+- **Oldest pending invoice** — Highlights the longest-outstanding invoice with customer name, amount, date, and days pending
+- **Top 5 customers** — Ranked by total invoice amount with invoice counts
+
+### API Explorer (`/dashboard/api-explorer`)
+Interactive tool for testing the invoices API:
+- Filter by status (pending/paid) and date range
+- Fetch results in real time from `/api/invoices`
+- Toggle between table view and raw JSON response
+- Shows matched count out of total invoices
+
+## REST API
 
 ### GET /api/invoices
-Fetch invoices with optional filters:
-- `?status=pending|paid` - Filter by status
-- `?customer_id=123` - Filter by customer
-- `?start_date=2024-01-01&end_date=2024-12-31` - Date range
-- Returns: formatted amounts + raw cents, customer info, count
+Retrieve invoices with optional filtering:
+- `?status=pending|paid` — Filter by invoice status
+- `?customer_id=<id>` — Filter by specific customer
+- `?start_date=YYYY-MM-DD` — Invoices from this date
+- `?end_date=YYYY-MM-DD` — Invoices until this date
+
+Response includes count, formatted currency amounts, raw cents, customer name/email, and formatted dates.
 
 ### GET /api/customers
-Fetch customers with invoice totals:
-- `?search=name|email` - Search by name or email
-- Returns: total paid/pending amounts, counts, formatted currency
+Retrieve customers with computed invoice totals:
+- `?search=<term>` — Search by name or email
+
+Response includes total paid/pending amounts (formatted + raw cents), invoice counts per status.
 
 ### GET /api/invoices/export
-Export invoices as CSV file:
-- `?status=pending|paid` - Optional status filter
-- Downloads timestamped CSV with headers
+Download invoices as CSV:
+- `?status=pending|paid` — Optional status filter
+- Returns `text/csv` with `Content-Disposition` header
+- Filename: `invoices-YYYY-MM-DD.csv`
+- Columns: Customer, Email, Amount, Date, Status
 
-## UI/UX Features
+## Navigation Structure
 
-- **Status filter tabs** - Quick toggle between All/Paid/Pending invoices
-- **Clickable customer names** - Navigate to customer details from invoices
-- **Responsive design** - Mobile cards, desktop table layouts
-- **Keyboard shortcuts** - Sortable headers with visual indicators
-- **Real-time search** - Debounced search across multiple fields
-- **URL-based filtering** - Bookmarkable and shareable filtered views
+| Page | Route | Icon |
+|------|-------|------|
+| Home | `/dashboard` | HomeIcon |
+| Invoices | `/dashboard/invoices` | DocumentDuplicateIcon |
+| Customers | `/dashboard/customers` | UserGroupIcon |
+| Summary | `/dashboard/summary` | ChartBarIcon |
+| Outstanding | `/dashboard/outstanding` | ClockIcon |
+| Reports | `/dashboard/reports` | ChartPieIcon |
+| API | `/dashboard/api-explorer` | CommandLineIcon |
 
-## Technical Architecture
+## Technical Stack
 
-- **Next.js 14** with App Router
-- **Server Components** for data fetching
-- **Client Components** for interactive filters (Search, StatusFilter, SortableHeader)
-- **In-memory data store** for invoices and customers
-- **Utility functions** for formatting dates and currency
-- **Tailwind CSS** for styling with responsive grid layouts
+- **Framework**: Next.js 14 with App Router
+- **Rendering**: Server Components for data fetching, Client Components for interactivity
+- **Styling**: Tailwind CSS with responsive breakpoints
+- **Data**: In-memory store with typed models (Invoice, Customer, Revenue)
+- **Fonts**: Lusitana for headings, Inter for body text
+- **Icons**: Heroicons v2 outline set
+- **State**: URL search params for filters, sort, and pagination (bookmarkable views)
+
+## Key Patterns
+
+- **URL-driven state** — All filtering (search, status, sort, order, page) is stored in URL search params, making views bookmarkable and shareable
+- **Server/client split** — Data fetching happens in server components; interactive controls (Search, StatusFilter, SortableHeader, ToggleStatus) are client components that update URL params
+- **Responsive design** — Mobile uses card layouts, desktop uses tables, with Tailwind `md:` breakpoints
+- **Consistent data enrichment** — API endpoints return both formatted strings and raw values for flexibility
