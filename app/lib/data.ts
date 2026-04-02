@@ -76,6 +76,36 @@ export async function fetchPaymentProgress() {
   };
 }
 
+export async function fetchFilteredStats(
+  query: string,
+  status?: string,
+): Promise<{ count: number; total: number }> {
+  const q = query.toLowerCase();
+
+  const filtered = store.invoices
+    .filter((invoice) => !status || invoice.status === status)
+    .filter((invoice) => {
+      const customer = store.customers.find(
+        (c) => c.id === invoice.customer_id,
+      );
+      return (
+        !q ||
+        (customer?.name ?? '').toLowerCase().includes(q) ||
+        (customer?.email ?? '').toLowerCase().includes(q) ||
+        invoice.amount.toString().includes(q) ||
+        invoice.date.includes(q) ||
+        invoice.status.toLowerCase().includes(q)
+      );
+    });
+
+  const total = filtered.reduce((sum, i) => sum + i.amount, 0);
+
+  return {
+    count: filtered.length,
+    total,
+  };
+}
+
 const ITEMS_PER_PAGE = 6;
 
 export async function fetchFilteredInvoices(

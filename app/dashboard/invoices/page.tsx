@@ -2,6 +2,7 @@ import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/invoices/table';
 import StatusFilter from '@/app/ui/invoices/status-filter';
+import QuickStats from '@/app/ui/invoices/quick-stats';
 import { CreateInvoice, ExportInvoices } from '@/app/ui/invoices/buttons';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchInvoicesPages } from '@/app/lib/data';
@@ -35,8 +36,9 @@ export default async function Page(props: {
           <CreateInvoice />
         </div>
       </div>
-      <div className="mt-3">
+      <div className="mt-3 space-y-3">
         <StatusFilter />
+        <QuickStats query={query} status={status} />
       </div>
       <Table query={query} currentPage={currentPage} status={status} sort={sort} order={order} />
       <div className="mt-5 flex w-full justify-center">
