@@ -26,6 +26,7 @@ export async function fetchLatestInvoices() {
       image_url: customer?.image_url ?? '',
       email: customer?.email ?? '',
       amount: formatCurrency(invoice.amount),
+      status: invoice.status,
     };
   });
 }

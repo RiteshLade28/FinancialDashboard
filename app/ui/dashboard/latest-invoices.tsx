@@ -44,11 +44,20 @@ export default async function LatestInvoices({
                     </p>
                   </div>
                 </div>
-                <p
-                  className={`${lusitana.className} truncate text-sm font-medium md:text-base`}
-                >
-                  {invoice.amount}
-                </p>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={clsx('inline-block h-2 w-2 rounded-full', {
+                      'bg-green-500': invoice.status === 'paid',
+                      'bg-orange-400': invoice.status === 'pending',
+                    })}
+                    title={invoice.status}
+                  />
+                  <p
+                    className={`${lusitana.className} truncate text-sm font-medium md:text-base`}
+                  >
+                    {invoice.amount}
+                  </p>
+                </div>
               </div>
             );
           })}
