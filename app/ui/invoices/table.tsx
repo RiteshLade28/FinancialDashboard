@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import ToggleStatus from '@/app/ui/invoices/toggle-status';
 import SortableHeader from '@/app/ui/invoices/sortable-header';
@@ -40,7 +41,12 @@ export default async function InvoicesTable({
                         height={28}
                         alt={`${invoice.name}'s profile picture`}
                       />
-                      <p>{invoice.name}</p>
+                      <Link
+                        href={`/dashboard/customers?query=${encodeURIComponent(invoice.name)}`}
+                        className="hover:text-blue-600 hover:underline"
+                      >
+                        {invoice.name}
+                      </Link>
                     </div>
                     <p className="text-sm text-gray-500">{invoice.email}</p>
                   </div>
@@ -91,7 +97,12 @@ export default async function InvoicesTable({
                         height={28}
                         alt={`${invoice.name}'s profile picture`}
                       />
-                      <p>{invoice.name}</p>
+                      <Link
+                        href={`/dashboard/customers?query=${encodeURIComponent(invoice.name)}`}
+                        className="hover:text-blue-600 hover:underline"
+                      >
+                        {invoice.name}
+                      </Link>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
@@ -115,6 +126,22 @@ export default async function InvoicesTable({
                 </tr>
               ))}
             </tbody>
+            {invoices && invoices.length > 0 && (
+              <tfoot className="bg-gray-50 font-medium">
+                <tr>
+                  <td className="px-4 py-3 sm:pl-6">
+                    {invoices.length} {invoices.length === 1 ? 'invoice' : 'invoices'}
+                  </td>
+                  <td />
+                  <td className="px-3 py-3">
+                    {formatCurrency(
+                      invoices.reduce((sum, inv) => sum + inv.amount, 0),
+                    )}
+                  </td>
+                  <td colSpan={3} />
+                </tr>
+              </tfoot>
+            )}
           </table>
         </div>
       </div>
