@@ -52,6 +52,29 @@ export async function fetchCardData() {
   };
 }
 
+export async function fetchPaymentProgress() {
+  const paid = store.invoices
+    .filter((i) => i.status === 'paid')
+    .reduce((sum, i) => sum + i.amount, 0);
+  const pending = store.invoices
+    .filter((i) => i.status === 'pending')
+    .reduce((sum, i) => sum + i.amount, 0);
+  const total = paid + pending;
+  const paidCount = store.invoices.filter((i) => i.status === 'paid').length;
+  const pendingCount = store.invoices.filter(
+    (i) => i.status === 'pending',
+  ).length;
+
+  return {
+    paid,
+    pending,
+    total,
+    paidCount,
+    pendingCount,
+    paidPercent: total > 0 ? Math.round((paid / total) * 100) : 0,
+  };
+}
+
 const ITEMS_PER_PAGE = 6;
 
 export async function fetchFilteredInvoices(
