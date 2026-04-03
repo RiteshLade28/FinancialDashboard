@@ -10,15 +10,20 @@ import {
 
 export default async function CustomersTable({
   customers,
+  sortDropdown,
 }: {
   customers: FormattedCustomersTable[];
+  sortDropdown?: React.ReactNode;
 }) {
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
         Customers
       </h1>
-      <Search placeholder="Search customers..." />
+      <div className="flex items-center justify-between gap-2">
+        <Search placeholder="Search customers..." />
+        {sortDropdown}
+      </div>
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">

@@ -245,6 +245,8 @@ export async function fetchInvoiceSummary(): Promise<InvoiceSummary[]> {
 
 export async function fetchFilteredCustomers(
   query: string,
+  sort?: string,
+  order?: string,
 ): Promise<FormattedCustomersTable[]> {
   const q = query.toLowerCase();
 
@@ -259,23 +261,37 @@ export async function fetchFilteredCustomers(
       const customerInvoices = store.invoices.filter(
         (i) => i.customer_id === customer.id,
       );
+      const pendingRaw = customerInvoices
+        .filter((i) => i.status === 'pending')
+        .reduce((sum, i) => sum + i.amount, 0);
+      const paidRaw = customerInvoices
+        .filter((i) => i.status === 'paid')
+        .reduce((sum, i) => sum + i.amount, 0);
       return {
         id: customer.id,
         name: customer.name,
         email: customer.email,
         image_url: customer.image_url,
         total_invoices: customerInvoices.length,
-        total_pending: formatCurrency(
-          customerInvoices
-            .filter((i) => i.status === 'pending')
-            .reduce((sum, i) => sum + i.amount, 0),
-        ),
-        total_paid: formatCurrency(
-          customerInvoices
-            .filter((i) => i.status === 'paid')
-            .reduce((sum, i) => sum + i.amount, 0),
-        ),
+        total_pending: formatCurrency(pendingRaw),
+        total_paid: formatCurrency(paidRaw),
+        _pending_raw: pendingRaw,
+        _paid_raw: paidRaw,
       };
     })
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => {
+      const dir = order === 'desc' ? -1 : 1;
+      switch (sort) {
+        case 'invoices':
+          return dir * (a.total_invoices - b.total_invoices);
+        case 'pending':
+          return dir * (a._pending_raw - b._pending_raw);
+        case 'paid':
+          return dir * (a._paid_raw - b._paid_raw);
+        case 'name':
+        default:
+          return dir * a.name.localeCompare(b.name);
+      }
+    })
+    .map(({ _pending_raw, _paid_raw, ...rest }) => rest);
 }
