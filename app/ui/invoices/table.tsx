@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import ToggleStatus from '@/app/ui/invoices/toggle-status';
 import SortableHeader from '@/app/ui/invoices/sortable-header';
+import InvoiceRow from '@/app/ui/invoices/invoice-row';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
 
@@ -84,46 +85,7 @@ export default async function InvoicesTable({
             </thead>
             <tbody className="bg-white">
               {invoices?.map((invoice) => (
-                <tr
-                  key={invoice.id}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
-                >
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src={invoice.image_url}
-                        className="rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${invoice.name}'s profile picture`}
-                      />
-                      <Link
-                        href={`/dashboard/customers?query=${encodeURIComponent(invoice.name)}`}
-                        className="hover:text-blue-600 hover:underline"
-                      >
-                        {invoice.name}
-                      </Link>
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {invoice.email}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {formatCurrency(invoice.amount)}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {formatDateToLocal(invoice.date)}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    <ToggleStatus id={invoice.id} status={invoice.status} />
-                  </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <UpdateInvoice id={invoice.id} />
-                      <DeleteInvoice id={invoice.id} />
-                    </div>
-                  </td>
-                </tr>
+                <InvoiceRow key={invoice.id} invoice={invoice} />
               ))}
             </tbody>
             {invoices && invoices.length > 0 && (
