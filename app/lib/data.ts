@@ -7,10 +7,16 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-import { store } from './in-memory-data';
+import { store, ActivityEntry } from './in-memory-data';
 
 export async function fetchRevenue(): Promise<Revenue[]> {
   return store.revenue;
+}
+
+export async function fetchRecentActivity(
+  limit: number = 10,
+): Promise<ActivityEntry[]> {
+  return store.activity.slice(0, limit);
 }
 
 export async function fetchLatestInvoices() {

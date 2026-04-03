@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { store } from './in-memory-data';
+import { store, logActivity } from './in-memory-data';
 import { cookies } from 'next/headers';
 
 const InvoiceSchema = z.object({
@@ -41,13 +41,15 @@ export async function createInvoice(prevState: State, formData: FormData) {
   const amountInCents = Math.round(amount * 100);
   const date = new Date().toISOString().split('T')[0];
 
+  const newId = crypto.randomUUID();
   store.invoices.push({
-    id: crypto.randomUUID(),
+    id: newId,
     customer_id: customerId,
     amount: amountInCents,
     status,
     date,
   });
+  logActivity('created', newId, `$${amount.toFixed(2)} — ${status}`);
 
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
@@ -82,6 +84,7 @@ export async function updateInvoice(
       amount: amountInCents,
       status,
     };
+    logActivity('updated', id, `$${amount.toFixed(2)} — ${status}`);
   }
 
   revalidatePath('/dashboard/invoices');
@@ -91,10 +94,13 @@ export async function updateInvoice(
 export async function toggleInvoiceStatus(id: string) {
   const index = store.invoices.findIndex((i) => i.id === id);
   if (index !== -1) {
+    const oldStatus = store.invoices[index].status;
+    const newStatus = oldStatus === 'paid' ? 'pending' : 'paid';
     store.invoices[index] = {
       ...store.invoices[index],
-      status: store.invoices[index].status === 'paid' ? 'pending' : 'paid',
+      status: newStatus,
     };
+    logActivity('toggled', id, `${oldStatus} → ${newStatus}`);
   }
 
   revalidatePath('/dashboard/invoices');
@@ -103,6 +109,7 @@ export async function toggleInvoiceStatus(id: string) {
 export async function deleteInvoice(id: string) {
   const index = store.invoices.findIndex((i) => i.id === id);
   if (index !== -1) {
+    logActivity('deleted', id, 'Invoice removed');
     store.invoices.splice(index, 1);
   }
 
