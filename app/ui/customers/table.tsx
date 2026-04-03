@@ -1,6 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
+import { EyeIcon } from '@heroicons/react/24/outline';
 import {
   CustomersTableType,
   FormattedCustomersTable,
@@ -56,8 +58,15 @@ export default async function CustomersTable({
                         <p className="font-medium">{customer.total_paid}</p>
                       </div>
                     </div>
-                    <div className="pt-4 text-sm">
+                    <div className="flex items-center justify-between pt-4 text-sm">
                       <p>{customer.total_invoices} invoices</p>
+                      <Link
+                        href={`/dashboard/invoices?query=${encodeURIComponent(customer.name)}`}
+                        className="flex items-center gap-1 text-blue-600 hover:underline"
+                      >
+                        <EyeIcon className="h-4 w-4" />
+                        View
+                      </Link>
                     </div>
                   </div>
                 ))}
@@ -79,6 +88,9 @@ export default async function CustomersTable({
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
                       Total Paid
+                    </th>
+                    <th scope="col" className="relative py-3 pl-6 pr-3">
+                      <span className="sr-only">View Invoices</span>
                     </th>
                   </tr>
                 </thead>
@@ -107,8 +119,17 @@ export default async function CustomersTable({
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_pending}
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_paid}
+                      </td>
+                      <td className="whitespace-nowrap bg-white py-5 pl-6 pr-3 group-first-of-type:rounded-md group-last-of-type:rounded-md">
+                        <Link
+                          href={`/dashboard/invoices?query=${encodeURIComponent(customer.name)}`}
+                          className="rounded-md border p-2 hover:bg-gray-100 inline-flex items-center gap-1 text-sm text-blue-600"
+                        >
+                          <EyeIcon className="w-4" />
+                          <span>View</span>
+                        </Link>
                       </td>
                     </tr>
                   ))}
