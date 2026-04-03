@@ -53,6 +53,15 @@ export async function fetchCardData() {
   };
 }
 
+export async function fetchOverdueCount(): Promise<number> {
+  const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+  return store.invoices.filter(
+    (i) =>
+      i.status === 'pending' &&
+      new Date(i.date).getTime() < thirtyDaysAgo,
+  ).length;
+}
+
 export async function fetchPaymentProgress() {
   const paid = store.invoices
     .filter((i) => i.status === 'paid')
