@@ -28,7 +28,11 @@ export default function InvoiceRow({ invoice }: { invoice: InvoicesTable }) {
           </Link>
         </div>
       </td>
-      <td className="whitespace-nowrap px-3 py-3">{invoice.email}</td>
+      <td className="whitespace-nowrap px-3 py-3">
+        <a href={`mailto:${invoice.email}`} className="text-gray-600 hover:text-blue-600 hover:underline">
+          {invoice.email}
+        </a>
+      </td>
       <td className="whitespace-nowrap px-3 py-3">
         {formatCurrency(invoice.amount)}
       </td>

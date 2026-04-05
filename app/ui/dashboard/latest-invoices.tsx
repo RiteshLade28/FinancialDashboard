@@ -39,9 +39,9 @@ export default async function LatestInvoices({
                     <p className="truncate text-sm font-semibold md:text-base">
                       {invoice.name}
                     </p>
-                    <p className="hidden text-sm text-gray-500 sm:block">
+                    <a href={`mailto:${invoice.email}`} className="hidden text-sm text-gray-500 hover:text-blue-600 hover:underline sm:block">
                       {invoice.email}
-                    </p>
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

@@ -48,9 +48,9 @@ export default async function CustomersTable({
                             <p>{customer.name}</p>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-500">
+                        <a href={`mailto:${customer.email}`} className="text-sm text-gray-500 hover:text-blue-600 hover:underline">
                           {customer.email}
-                        </p>
+                        </a>
                       </div>
                     </div>
                     <div className="flex w-full items-center justify-between border-b py-5">
@@ -116,7 +116,9 @@ export default async function CustomersTable({
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.email}
+                        <a href={`mailto:${customer.email}`} className="hover:text-blue-600 hover:underline">
+                          {customer.email}
+                        </a>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_invoices}
