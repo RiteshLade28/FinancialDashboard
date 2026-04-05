@@ -17,7 +17,11 @@ export default function SideNav() {
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
-        <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
+        <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:flex md:items-end md:justify-center md:pb-4">
+          <p className="text-xs text-gray-400">
+            Press <kbd className="rounded border border-gray-300 bg-white px-1 py-0.5 font-mono text-[10px]">?</kbd> for shortcuts
+          </p>
+        </div>
         <form action={signOut}>
           <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
             <PowerIcon className="w-6" />
