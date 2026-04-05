@@ -100,3 +100,5 @@ Download invoices as CSV:
 - **Server/client split** — Data fetching happens in server components; interactive controls (Search, StatusFilter, SortableHeader, ToggleStatus) are client components that update URL params
 - **Responsive design** — Mobile uses card layouts, desktop uses tables, with Tailwind `md:` breakpoints
 - **Consistent data enrichment** — API endpoints return both formatted strings and raw values for flexibility
+
+## Testing change
