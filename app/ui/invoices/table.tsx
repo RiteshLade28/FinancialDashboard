@@ -49,7 +49,9 @@ export default async function InvoicesTable({
                         {invoice.name}
                       </Link>
                     </div>
-                    <p className="text-sm text-gray-500">{invoice.email}</p>
+                    <a href={`mailto:${invoice.email}`} className="text-sm text-gray-500 hover:text-blue-600 hover:underline">
+                      {invoice.email}
+                    </a>
                   </div>
                   <ToggleStatus id={invoice.id} status={invoice.status} />
                 </div>
