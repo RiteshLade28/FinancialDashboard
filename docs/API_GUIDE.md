@@ -187,3 +187,10 @@ fetch(`/api/invoices?${params}`);
 ## Support
 
 For issues or feature requests, please refer to the project documentation or contact the development team.
+
+## Rate Limiting
+
+The API currently does not enforce rate limits. However, for production use:
+- Keep requests under 100 per minute per client
+- Use caching for repeated queries
+- Batch filter parameters instead of making multiple single-filter requests
