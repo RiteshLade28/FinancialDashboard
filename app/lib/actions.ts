@@ -93,7 +93,7 @@ export async function updateInvoice(
   redirect('/dashboard/invoices');
 }
 
-export async function toggleInvoiceStatus(id: string) {
+export async function toggleInvoiceStatus(id: string, note: string = '') {
   const index = store.invoices.findIndex((i) => i.id === id);
   if (index !== -1) {
     const oldStatus = store.invoices[index].status;
@@ -102,7 +102,16 @@ export async function toggleInvoiceStatus(id: string) {
       ...store.invoices[index],
       status: newStatus,
     };
-    logActivity('toggled', id, `${oldStatus} → ${newStatus}`);
+
+    store.statusHistory.unshift({
+      invoiceId: id,
+      from: oldStatus,
+      to: newStatus,
+      note: note || (newStatus === 'paid' ? 'Marked as paid' : 'Reverted to pending'),
+      timestamp: Date.now(),
+    });
+
+    logActivity('toggled', id, `${oldStatus} → ${newStatus}${note ? `: ${note}` : ''}`);
   }
 
   revalidatePath('/dashboard/invoices');

@@ -35,6 +35,14 @@ export type TrashedInvoice = {
   deletedAt: number;
 };
 
+export type StatusChange = {
+  invoiceId: string;
+  from: 'pending' | 'paid';
+  to: 'pending' | 'paid';
+  note: string;
+  timestamp: number;
+};
+
 export const store = {
   users: [...userData],
   customers: [...customerData],
@@ -42,6 +50,7 @@ export const store = {
   revenue: [...revenueData],
   activity: [] as ActivityEntry[],
   trash: [] as TrashedInvoice[],
+  statusHistory: [] as StatusChange[],
 };
 
 export function logActivity(

@@ -12,7 +12,7 @@ The main landing page displays four key metrics cards (Total Collected, Total Pe
 ### Invoices (`/dashboard/invoices`)
 Full invoice management table with:
 - **CRUD operations** — Create, edit, and soft-delete invoices (deleted invoices move to Trash)
-- **Quick status toggle** — Click any status badge to flip between Pending and Paid instantly
+- **Status toggle with notes** — Click any status badge to open a confirmation dialog where you can add a payment note before changing status
 - **Status filter tabs** — Toggle between All, Paid, and Pending views
 - **Sortable columns** — Click Customer, Amount, Date, or Status headers to sort ascending/descending
 - **Search** — Debounced search across customer name, email, amount, date, and status
@@ -57,6 +57,32 @@ Deleted invoices are moved to trash instead of being permanently removed:
 5. The invoice is moved to Trash (`/dashboard/trash`)
 6. From Trash, you can **restore** the invoice or **permanently delete** it
 7. Permanent deletion requires a second confirmation and cannot be undone
+
+### How to Toggle Payment Status
+Toggling an invoice's payment status now uses a confirmation dialog with optional notes:
+
+1. Navigate to the Invoices page (`/dashboard/invoices`)
+2. Find the invoice whose status you want to change
+3. Click the status badge (Paid or Pending) on the invoice row
+4. A dialog opens showing the current and new status
+5. **Quick notes** — Click a suggested reason (e.g., "Payment received", "Wire transfer", "Payment refunded")
+6. **Custom note** — Or type a custom note in the text field
+7. Click **"Mark as Paid"** or **"Mark as Pending"** to confirm
+8. The status change and note are recorded in the activity feed and status history
+
+**Quick note suggestions when marking as Paid:**
+- Payment received
+- Wire transfer
+- Credit card
+- Check cleared
+
+**Quick note suggestions when marking as Pending:**
+- Payment refunded
+- Payment bounced
+- Dispute opened
+- Correction
+
+**Note:** Status changes are tracked with timestamps and notes in the status history. All toggle actions appear in the Activity Feed on the dashboard.
 
 ### API Explorer (`/dashboard/api-explorer`)
 Interactive tool for testing the invoices API:

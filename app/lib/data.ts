@@ -7,7 +7,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-import { store, ActivityEntry, TrashedInvoice } from './in-memory-data';
+import { store, ActivityEntry, TrashedInvoice, StatusChange } from './in-memory-data';
 
 export async function fetchRevenue(): Promise<Revenue[]> {
   return store.revenue;
@@ -308,4 +308,8 @@ export async function fetchTrashedInvoices() {
       image_url: customer?.image_url ?? '',
     };
   });
+}
+
+export async function fetchStatusHistory(invoiceId: string): Promise<StatusChange[]> {
+  return store.statusHistory.filter((s) => s.invoiceId === invoiceId);
 }
