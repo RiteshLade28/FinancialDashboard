@@ -12,6 +12,7 @@ const InvoiceSchema = z.object({
   status: z.enum(['pending', 'paid'], {
     invalid_type_error: 'Please select an invoice status.',
   }),
+  date: z.string().optional(),
 });
 
 export type State = {
@@ -28,6 +29,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
+    date: formData.get('date') || undefined,
   });
 
   if (!validatedFields.success) {
@@ -39,7 +41,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
   const { customerId, amount, status } = validatedFields.data;
   const amountInCents = Math.round(amount * 100);
-  const date = new Date().toISOString().split('T')[0];
+  const date = validatedFields.data.date || new Date().toISOString().split('T')[0];
 
   const newId = crypto.randomUUID();
   store.invoices.push({
