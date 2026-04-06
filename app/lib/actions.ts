@@ -111,11 +111,36 @@ export async function toggleInvoiceStatus(id: string) {
 export async function deleteInvoice(id: string) {
   const index = store.invoices.findIndex((i) => i.id === id);
   if (index !== -1) {
-    logActivity('deleted', id, 'Invoice removed');
+    const invoice = store.invoices[index];
+    logActivity('deleted', id, 'Moved to trash');
+    store.trash.unshift({ ...invoice, deletedAt: Date.now() });
     store.invoices.splice(index, 1);
   }
 
   revalidatePath('/dashboard/invoices');
+  revalidatePath('/dashboard/trash');
+}
+
+export async function restoreInvoice(id: string) {
+  const index = store.trash.findIndex((i) => i.id === id);
+  if (index !== -1) {
+    const { deletedAt, ...invoice } = store.trash[index];
+    store.invoices.push(invoice);
+    store.trash.splice(index, 1);
+    logActivity('restored', id, 'Restored from trash');
+  }
+
+  revalidatePath('/dashboard/invoices');
+  revalidatePath('/dashboard/trash');
+}
+
+export async function permanentlyDeleteInvoice(id: string) {
+  const index = store.trash.findIndex((i) => i.id === id);
+  if (index !== -1) {
+    store.trash.splice(index, 1);
+  }
+
+  revalidatePath('/dashboard/trash');
 }
 
 export async function authenticate(

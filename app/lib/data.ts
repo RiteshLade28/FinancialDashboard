@@ -7,7 +7,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-import { store, ActivityEntry } from './in-memory-data';
+import { store, ActivityEntry, TrashedInvoice } from './in-memory-data';
 
 export async function fetchRevenue(): Promise<Revenue[]> {
   return store.revenue;
@@ -294,4 +294,18 @@ export async function fetchFilteredCustomers(
       }
     })
     .map(({ _pending_raw, _paid_raw, ...rest }) => rest);
+}
+
+export async function fetchTrashedInvoices() {
+  return store.trash.map((invoice) => {
+    const customer = store.customers.find(
+      (c) => c.id === invoice.customer_id,
+    );
+    return {
+      ...invoice,
+      name: customer?.name ?? 'Unknown',
+      email: customer?.email ?? '',
+      image_url: customer?.image_url ?? '',
+    };
+  });
 }

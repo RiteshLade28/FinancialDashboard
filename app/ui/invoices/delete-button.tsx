@@ -5,7 +5,7 @@ import { deleteInvoice } from '@/app/lib/actions';
 
 export default function DeleteButton({ id }: { id: string }) {
   const handleDelete = async () => {
-    if (confirm('Are you sure you want to delete this invoice?')) {
+    if (confirm('Move this invoice to trash?')) {
       await deleteInvoice(id);
     }
   };

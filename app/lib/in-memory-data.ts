@@ -19,11 +19,20 @@ const invoicesWithIds = invoiceData.map((invoice) => ({
 
 export type ActivityEntry = {
   id: string;
-  action: 'created' | 'updated' | 'deleted' | 'toggled';
+  action: 'created' | 'updated' | 'deleted' | 'restored' | 'toggled';
   invoiceId: string;
   customerName: string;
   detail: string;
   timestamp: number;
+};
+
+export type TrashedInvoice = {
+  id: string;
+  customer_id: string;
+  amount: number;
+  date: string;
+  status: 'pending' | 'paid';
+  deletedAt: number;
 };
 
 export const store = {
@@ -32,6 +41,7 @@ export const store = {
   invoices: invoicesWithIds,
   revenue: [...revenueData],
   activity: [] as ActivityEntry[],
+  trash: [] as TrashedInvoice[],
 };
 
 export function logActivity(

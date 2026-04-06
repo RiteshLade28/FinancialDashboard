@@ -11,7 +11,7 @@ The main landing page displays four key metrics cards (Total Collected, Total Pe
 
 ### Invoices (`/dashboard/invoices`)
 Full invoice management table with:
-- **CRUD operations** — Create, edit, and delete invoices
+- **CRUD operations** — Create, edit, and soft-delete invoices (deleted invoices move to Trash)
 - **Quick status toggle** — Click any status badge to flip between Pending and Paid instantly
 - **Status filter tabs** — Toggle between All, Paid, and Pending views
 - **Sortable columns** — Click Customer, Amount, Date, or Status headers to sort ascending/descending
@@ -40,6 +40,23 @@ Financial analytics and statistics:
 - **Key metrics** — Average invoice amount, pending count, paid count, total customers
 - **Oldest pending invoice** — Highlights the longest-outstanding invoice with customer name, amount, date, and days pending
 - **Top 5 customers** — Ranked by total invoice amount with invoice counts
+
+### Trash (`/dashboard/trash`)
+Deleted invoices are moved to trash instead of being permanently removed:
+- **Soft delete** — Clicking delete on an invoice moves it to trash with a confirmation prompt
+- **Restore** — Click the restore button to move an invoice back to the active list
+- **Permanent delete** — Click the X button to permanently remove an invoice (with confirmation)
+- **Deletion timestamp** — Shows when each invoice was deleted
+- **Responsive layout** — Mobile cards and desktop table views
+
+### How to Delete an Invoice
+1. Navigate to the Invoices page (`/dashboard/invoices`)
+2. Find the invoice you want to delete
+3. Click the trash icon on the invoice row
+4. Confirm the "Move this invoice to trash?" prompt
+5. The invoice is moved to Trash (`/dashboard/trash`)
+6. From Trash, you can **restore** the invoice or **permanently delete** it
+7. Permanent deletion requires a second confirmation and cannot be undone
 
 ### API Explorer (`/dashboard/api-explorer`)
 Interactive tool for testing the invoices API:
@@ -83,6 +100,7 @@ Download invoices as CSV:
 | Outstanding | `/dashboard/outstanding` | ClockIcon |
 | Reports | `/dashboard/reports` | ChartPieIcon |
 | API | `/dashboard/api-explorer` | CommandLineIcon |
+| Trash | `/dashboard/trash` | TrashIcon |
 
 ## Technical Stack
 

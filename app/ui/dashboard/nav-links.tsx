@@ -7,6 +7,7 @@ import {
   CommandLineIcon,
   ChartPieIcon,
   ClockIcon,
+  TrashIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -26,6 +27,7 @@ const links = [
   { name: 'Outstanding', href: '/dashboard/outstanding', icon: ClockIcon },
   { name: 'Reports', href: '/dashboard/reports', icon: ChartPieIcon },
   { name: 'API', href: '/dashboard/api-explorer', icon: CommandLineIcon },
+  { name: 'Trash', href: '/dashboard/trash', icon: TrashIcon },
 ];
 
 export default function NavLinks() {
