@@ -147,6 +147,20 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             ))}
           </div>
         </fieldset>
+
+        {/* Notes */}
+        <div className="mb-4">
+          <label htmlFor="notes" className="mb-2 block text-sm font-medium">
+            Notes (optional)
+          </label>
+          <textarea
+            id="notes"
+            name="notes"
+            placeholder="Add internal notes (e.g., follow up needed, special instructions)"
+            rows={3}
+            className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500"
+          />
+        </div>
       </div>
       {state.message && (
         <p className="mt-2 text-sm text-red-500">{state.message}</p>

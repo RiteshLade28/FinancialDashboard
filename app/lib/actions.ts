@@ -43,6 +43,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
   const amountInCents = Math.round(amount * 100);
   const date = validatedFields.data.date || new Date().toISOString().split('T')[0];
 
+  const notes = (formData.get('notes') as string) || '';
   const newId = crypto.randomUUID();
   store.invoices.push({
     id: newId,
@@ -50,6 +51,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
     amount: amountInCents,
     status,
     date,
+    notes: notes || undefined,
   });
   logActivity('created', newId, `$${amount.toFixed(2)} — ${status}`);
 
@@ -78,6 +80,7 @@ export async function updateInvoice(
   const { customerId, amount, status } = validatedFields.data;
   const amountInCents = Math.round(amount * 100);
 
+  const notes = (formData.get('notes') as string) || '';
   const index = store.invoices.findIndex((i) => i.id === id);
   if (index !== -1) {
     store.invoices[index] = {
@@ -85,6 +88,7 @@ export async function updateInvoice(
       customer_id: customerId,
       amount: amountInCents,
       status,
+      notes: notes || undefined,
     };
     logActivity('updated', id, `$${amount.toFixed(2)} — ${status}`);
   }

@@ -213,6 +213,7 @@ export async function fetchInvoiceById(
     customer_id: invoice.customer_id,
     amount: invoice.amount / 100,
     status: invoice.status,
+    notes: invoice.notes,
   };
 }
 
