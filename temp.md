@@ -12,6 +12,7 @@ The main landing page displays four key metrics cards (Total Collected, Total Pe
 ### Invoices (`/dashboard/invoices`)
 Full invoice management table with:
 - **CRUD operations** — Create, edit, and soft-delete invoices (deleted invoices move to Trash)
+- **View invoices** — Click the eye icon to view invoice details including customer info, amount, date, notes, and full status history
 - **Status toggle with notes** — Click any status badge to open a confirmation dialog where you can add a payment note before changing status
 - **Status filter tabs** — Toggle between All, Paid, and Pending views
 - **Sortable columns** — Click Customer, Amount, Date, or Status headers to sort ascending/descending
@@ -48,6 +49,16 @@ Deleted invoices are moved to trash instead of being permanently removed:
 - **Permanent delete** — Click the X button to permanently remove an invoice (with confirmation)
 - **Deletion timestamp** — Shows when each invoice was deleted
 - **Responsive layout** — Mobile cards and desktop table views
+
+### How to View Invoice Details
+1. Navigate to the Invoices page (`/dashboard/invoices`) or any page showing invoices
+2. Click the **eye icon** button on the invoice row to view its details
+3. The invoice details page displays:
+   - **Customer information** — Name, email, and profile picture
+   - **Invoice details** — Amount, date, and current status
+   - **Notes** — Any internal notes added when creating or editing the invoice
+   - **Status history** — Timeline of all status changes with timestamps and notes
+4. Click **"Back"** to return to the invoices list, or **"Edit"** to modify the invoice
 
 ### How to Delete an Invoice
 1. Navigate to the Invoices page (`/dashboard/invoices`)
@@ -144,33 +155,3 @@ Download invoices as CSV:
 - **Server/client split** — Data fetching happens in server components; interactive controls (Search, StatusFilter, SortableHeader, ToggleStatus) are client components that update URL params
 - **Responsive design** — Mobile uses card layouts, desktop uses tables, with Tailwind `md:` breakpoints
 - **Consistent data enrichment** — API endpoints return both formatted strings and raw values for flexibility
-
-## Testing change
-## Testing change - 2
-## Testing change - 3
-## Testing change - 4
-## Testing change - 5
-## Testing change - 6
-## Testing change - 7
-## Testing change - 8
-## Testing change - 9
-## Testing change - 10
-## Testing change - 11
-## Testing change - 12
-## Testing change - 13
-## Testing change - 14
-## Testing change - 15
-## Testing change - 16
-## Testing change - 17
-## Testing change - 18
-## Testing change - 19
-## Testing change - 20
-## Testing change - 21
-## Testing change - 22
-testing change - 1775499221
-testing change - 1775499883
-testing change - 1775500295
-testing change - 1775500765
-testing change - 1775501020
-testing change - 1775501553
-testing change - 1775504056

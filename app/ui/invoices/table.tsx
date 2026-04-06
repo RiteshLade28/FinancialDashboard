@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
+import { ViewInvoice, UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import ToggleStatus from '@/app/ui/invoices/toggle-status';
 import SortableHeader from '@/app/ui/invoices/sortable-header';
 import InvoiceRow from '@/app/ui/invoices/invoice-row';
@@ -63,6 +63,7 @@ export default async function InvoicesTable({
                     <p>{formatDateToLocal(invoice.date)}</p>
                   </div>
                   <div className="flex justify-end gap-2">
+                    <ViewInvoice id={invoice.id} />
                     <UpdateInvoice id={invoice.id} />
                     <DeleteInvoice id={invoice.id} />
                   </div>

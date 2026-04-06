@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
+import { ViewInvoice, UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import ToggleStatus from '@/app/ui/invoices/toggle-status';
 import { formatDateToLocal, formatCurrency, calculateDaysPending } from '@/app/lib/utils';
 import { InvoicesTable } from '@/app/lib/definitions';
@@ -51,6 +51,7 @@ export default function InvoiceRow({ invoice }: { invoice: InvoicesTable }) {
       </td>
       <td className="whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex justify-end gap-3">
+          <ViewInvoice id={invoice.id} />
           <UpdateInvoice id={invoice.id} />
           <DeleteInvoice id={invoice.id} />
         </div>

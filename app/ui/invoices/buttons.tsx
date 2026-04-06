@@ -2,6 +2,7 @@ import {
   ArrowDownTrayIcon,
   PencilIcon,
   PlusIcon,
+  EyeIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
@@ -26,6 +27,17 @@ export function CreateInvoice() {
     >
       <span className="hidden md:block">Create Invoice</span>{' '}
       <PlusIcon className="h-5 md:ml-4" />
+    </Link>
+  );
+}
+
+export function ViewInvoice({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/dashboard/invoices/${id}/view`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <EyeIcon className="w-5" />
     </Link>
   );
 }

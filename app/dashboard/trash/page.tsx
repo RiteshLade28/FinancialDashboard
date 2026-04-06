@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchTrashedInvoices } from '@/app/lib/data';
 import { formatCurrency, formatDateToLocal } from '@/app/lib/utils';
+import { ViewInvoice } from '@/app/ui/invoices/buttons';
 import RestoreButton from '@/app/ui/invoices/restore-button';
 import PermanentDeleteButton from '@/app/ui/invoices/permanent-delete-button';
 
@@ -50,6 +51,7 @@ export default async function Page() {
                     Deleted {formatDateToLocal(new Date(invoice.deletedAt).toISOString())}
                   </p>
                   <div className="flex gap-2">
+                    <ViewInvoice id={invoice.id} />
                     <RestoreButton id={invoice.id} />
                     <PermanentDeleteButton id={invoice.id} />
                   </div>
@@ -114,6 +116,7 @@ export default async function Page() {
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-2">
+                      <ViewInvoice id={invoice.id} />
                       <RestoreButton id={invoice.id} />
                       <PermanentDeleteButton id={invoice.id} />
                     </div>

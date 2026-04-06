@@ -1,6 +1,7 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
+import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
 import { LatestInvoice } from '@/app/lib/definitions';
 
@@ -18,10 +19,11 @@ export default async function LatestInvoices({
         <div className="bg-white px-6">
           {latestInvoices.map((invoice, i) => {
             return (
-              <div
+              <Link
                 key={invoice.id}
+                href={`/dashboard/invoices/${invoice.id}/view`}
                 className={clsx(
-                  'flex flex-row items-center justify-between py-4',
+                  'flex flex-row items-center justify-between py-4 hover:bg-gray-50 transition-colors',
                   {
                     'border-t': i !== 0,
                   },
@@ -58,7 +60,7 @@ export default async function LatestInvoices({
                     {invoice.amount}
                   </p>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

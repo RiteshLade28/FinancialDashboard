@@ -212,6 +212,7 @@ export async function fetchInvoiceById(
     id: invoice.id,
     customer_id: invoice.customer_id,
     amount: invoice.amount / 100,
+    date: invoice.date,
     status: invoice.status,
     notes: invoice.notes,
   };
