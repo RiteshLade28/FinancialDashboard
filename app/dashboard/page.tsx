@@ -3,20 +3,23 @@ import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import PaymentProgress from '@/app/ui/dashboard/payment-progress';
 import ActivityFeed from '@/app/ui/dashboard/activity-feed';
+import WelcomeBanner from '@/app/ui/dashboard/welcome-banner';
 import { lusitana } from '@/app/ui/fonts';
 import {
   fetchRevenue,
   fetchLatestInvoices,
   fetchCardData,
   fetchOverdueCount,
+  fetchPaymentProgress,
 } from '@/app/lib/data';
 
 export default async function Page() {
-  const [revenue, latestInvoices, cardData, overdueCount] = await Promise.all([
+  const [revenue, latestInvoices, cardData, overdueCount, progress] = await Promise.all([
     fetchRevenue(),
     fetchLatestInvoices(),
     fetchCardData(),
     fetchOverdueCount(),
+    fetchPaymentProgress(),
   ]);
 
   const {
@@ -28,9 +31,10 @@ export default async function Page() {
 
   return (
     <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Dashboard
-      </h1>
+      <WelcomeBanner
+        pendingCount={progress.pendingCount}
+        overdueCount={overdueCount}
+      />
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
         <Card title="Collected" value={totalPaidInvoices} type="collected" />
         <Card title="Pending" value={totalPendingInvoices} type="pending" />
